@@ -1,23 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { Chessboard } from 'kokopu-react';
+import { useState } from 'react';
 function App() {
+  const [move, setmove] = useState("e4");
+  const onClick = () => {
+    setmove("d4");
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Chessboard move ={move} />
+
+      <div onClick={() => onClick()} style={{height:200, width:100, backgroundColor:'black'}}>
+
+      </div>
     </div>
   );
 }
