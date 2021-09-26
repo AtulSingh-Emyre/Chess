@@ -29,7 +29,7 @@ function App() {
       <Chessboard position ={position} />
 
       <div onClick={() => onClick()} style={{height:200, width:100, backgroundColor:'black'}}>
-      <Form.Control style={{width:200, height: 80}} placeholder="Enter move to be played" onChange={HandleMove} value={move} />
+      <Form.Control style={{width:200, height: 80}} placeholder="Enter the move to be played" onChange={HandleMove} value={move} />
 
       </div>
     </div>
