@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 // Import module.
-
+import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 import Meyda from "meyda";
 const audioContext = new AudioContext();
@@ -21,15 +21,16 @@ const Voicerecorder = () => {
         console.log('audioData >>>', audioData);
     }
 
-    
+
     return (
         <div>
-            <div style={{backgroundColor:'white',width:300,height:300}}>
-            <AudioReactRecorder state={recordState} onStop={onStop} />
-            <audio controls ref={audioRef}>
-                <source src={recordState?recordState.url:null} type='audio/mpeg' />
-            </audio>
-            {/* <audio
+            <div><h4>Voice Recorder</h4></div>
+            <div style={{ backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <AudioReactRecorder state={recordState} onStop={onStop} />
+                {/* <audio controls ref={audioRef}>
+                    <source src={recordState ? recordState.url : null} type='audio/mpeg' />
+                </audio> */}
+                {/* <audio
                 controls
                 loop
                 crossorigin="anonymous"
@@ -37,8 +38,11 @@ const Voicerecorder = () => {
                 src={recordState?recordState.url:null}
             ></audio> */}
             </div>
-            <div style={{backgroundColor:'black',width:300,height:300}} onClick={onStart}></div>
-            <div style={{backgroundColor:'yellow',width:300,height:300}} onClick={onEnd}></div>
+            <Row>
+                <Col><Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={onStart}>Record</Button>
+                    <Button style={{ height: '45px', width: '150px', backgroundColor: 'Pink', margin: '10px', padding: '5px' }} onClick={onEnd}>Stop</Button>
+                </Col>
+            </Row>
         </div>
     );
 }
