@@ -9,6 +9,7 @@
     "audio-react-recorder": "^1.0.4",
     "chess.js": "^0.12.0",
     "kokopu-react": "^1.1.0",
+    "meyda": "^5.2.2",
     "node-audiorecorder": "^2.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
