@@ -40,13 +40,10 @@ function App() {
 
             <div >
               <Form.Control type="text" style={{ height: '75px', width: '250px', textAlign: 'center' }} placeholder="Enter the move to be played" onChange={HandleMove} value={move} />
-              <br />
               <Button style={{ height: '30px', width: '100px', backgroundColor: 'yellow', margin: '10px' }} onClick={() => onClick()}>Submit</Button>{' '}
             </div>
           </Col>
-          <Col xs={6} md={4}>
-            apple
-          </Col>
+
         </Row>
         <Row>
           <Voicerecorder />
