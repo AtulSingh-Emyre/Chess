@@ -3,6 +3,7 @@ import { Chessboard } from 'kokopu-react';
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import Chess from 'chess.js';
+import Voicerecorder from './Components/VoiceRecorder';
 var chess;
 
 function App() {
@@ -47,6 +48,10 @@ function App() {
             apple
           </Col>
         </Row>
+        <Row>
+          <Voicerecorder />
+        </Row>
+
       </Container>
     </div>
   );
