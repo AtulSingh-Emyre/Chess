@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './SpeechProcessing.css';
 import { Utils } from './utils.js'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { Recognize } from './recognize';
 
 var hark = require('hark')
@@ -234,8 +235,9 @@ class SpeechProcessing extends Component {
     return (
       <div className="SpeechProcessing">
         <div className="row">
-          <button onClick={this.start}>Start</button>
-          <button onClick={this.stop}>Stop</button>
+          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button>
+          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Pink', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
+
         </div>
         <div className="msgs">
           <span>{this.state.modeMsg}</span>
