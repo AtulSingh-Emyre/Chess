@@ -11,7 +11,7 @@ class SpeechProcessing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      msg: "click start",
+      msg: "",
       modeMsg: "",
       statusMsg: "",
       trained: false,
@@ -234,6 +234,7 @@ class SpeechProcessing extends Component {
   render() {
     return (
       <div className="SpeechProcessing">
+        <h2 style={{color:'Violet'}}>Click on record to start the game</h2>
         <div className="row">
           <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button>
           <Button style={{ height: '45px', width: '150px', backgroundColor: 'Pink', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
