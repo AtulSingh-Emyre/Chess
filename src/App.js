@@ -30,6 +30,7 @@ function App() {
   return (
     <div className="App">
       <Navbarcomp />
+      <br />
       <Container>
         <Row >
           <Col>
@@ -40,10 +41,11 @@ function App() {
             <div style={{ margin: '25px' }}>
               <Chessboard position={position} />
 
-              <div style={{ padding: '10px', margin: '10px' }} >
-                <input type="text" placeholder="Enter the move to be played" onChange={HandleMove} style={{width:'500px',height:'50px',textAlign:'center'}}  value={move} />
+              <div style={{ padding: '10px', margin: '10px', justifyContent: 'center', display: 'flex' }} >
+                <input type="text" placeholder="Enter the move" onChange={HandleMove} style={{ textalign: 'center' }} value={move} />
+                {/* {<label class="form-label" for="form1">Manual Control</label> */}
               </div>
-              <Button class="btn btn-secondary" onClick={() => onClick()}>Submit</Button>{' '}
+              <Button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" onClick={() => onClick()}>Submit</Button>{' '}
             </div>
           </Col>
 

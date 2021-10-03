@@ -237,7 +237,7 @@ class SpeechProcessing extends Component {
         <h2 style={{color:'Violet'}}>Click on record to start the game</h2>
         <div >
           <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button>
-          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Pink', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
+          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Violet', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
         </div>
         <div className="msgs">
           <span>{this.state.modeMsg}</span>
