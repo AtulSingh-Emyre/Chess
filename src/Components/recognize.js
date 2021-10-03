@@ -17,7 +17,7 @@ export class Recognize {
     static calibMode = false;
     static mfccHistoryArr = [];
     static mfccHistoryCunters = [];
-    static dictionary = ['one', 'two', 'three'];
+    static dictionary = ['knight', 'bishop', 'rook'];
     // static dictionary = ['left', 'right', 'up', 'down']; 
     static bufferSize = 2048;
     static _buffArrSize = 40;      // 40   / 70

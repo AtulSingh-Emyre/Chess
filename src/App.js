@@ -32,18 +32,18 @@ function App() {
       <Navbarcomp />
       <Container>
         <Row >
-          <Col xs={6} md={4}>
+          <Col>
             <div>
               <h1>Speech Processing Course Project</h1>
               <h4>Recognition of chess movements</h4>
             </div>
             <div style={{ margin: '25px' }}>
               <Chessboard position={position} />
-            </div>
 
-            <div >
-              <Form.Control type="text" style={{ height: '75px', width: '250px', textAlign: 'center' }} placeholder="Enter the move to be played" onChange={HandleMove} value={move} />
-              <Button style={{ height: '30px', width: '100px', backgroundColor: 'yellow', margin: '10px' }} onClick={() => onClick()}>Submit</Button>{' '}
+              <div style={{ padding: '10px', margin: '10px' }} >
+                <input type="text" placeholder="Enter the move to be played" onChange={HandleMove} style={{width:'500px',height:'50px',textAlign:'center'}}  value={move} />
+              </div>
+              <Button class="btn btn-secondary" onClick={() => onClick()}>Submit</Button>{' '}
             </div>
           </Col>
 
