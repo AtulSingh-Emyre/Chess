@@ -3,6 +3,8 @@ import { Chessboard } from 'kokopu-react';
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import Chess from 'chess.js';
+// import Voicerecorder from './Components/VoiceRecorder';
+import SpeechProcessing from './Components/SpeechProcessing';
 var chess;
 
 function App() {
@@ -39,14 +41,16 @@ function App() {
 
             <div >
               <Form.Control type="text" style={{ height: '75px', width: '250px', textAlign: 'center' }} placeholder="Enter the move to be played" onChange={HandleMove} value={move} />
-              <br />
               <Button style={{ height: '30px', width: '100px', backgroundColor: 'yellow', margin: '10px' }} onClick={() => onClick()}>Submit</Button>{' '}
             </div>
           </Col>
-          <Col xs={6} md={4}>
-            apple
-          </Col>
+
         </Row>
+        <Row>
+          <SpeechProcessing />
+          {/* <Voicerecorder /> */}
+        </Row>
+
       </Container>
     </div>
   );
