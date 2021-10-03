@@ -226,7 +226,6 @@ export class Recognize {
             }
         }
         console.log('mfcc coefficients: ',mfccMetricArr);
-
         return mfccMetricArr;
     }
 

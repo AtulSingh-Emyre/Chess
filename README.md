@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+Recognition of Chess Movements via speech
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project largely aims to recognise chess movements via speech and display it on the UI. It includes features like:
+1. Consists of both training and recognition modes
+2. Play chess via speech by speaking chess movements like Nf3
 
-## Available Scripts
+Current Progress:
+1. Chess: Currently we have designed the UI in a way that entering the movement text in the text field allows playing a move in chess.
+2. The above supports 2 player game.
+3. Added a speech recognition module which takes 3 samples for 2 words and then performs recognition.
+4. The speech feature used for recognition is MFCC
 
-In the project directory, you can run:
+Going ahead:
+1. store the samples in a database.
+2. train the model with a total of 100 speech samples per text using the tool made.
+3. Convert speech to text using the distance between audio fingerprints and performing K-NN to make the final case.
 
-### `yarn start`
+pros of the method used for speech recognition above:
+1. Easy to understand and to implement.
+2. Pure Javascript, runs on the client side.
+3. Fast processing time.
+4. Accurate if the vocabulary is chosen carefully (see CONS).
+5. Cross-language, you can use any language to train and recognize words.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+cons of the method used for speech recognition above:
+1. Works well only for limited vocabulary size.
+2. The system needs training in order to work, think of 20 words vocabulary or more.
+3. The system will work only for the same person who trained it, or for another person if  they have a close voice volume, type, accent, etc’.
+4. Can easily confuse between two close words, like “tree” and “free”. Small words are not always captured well, like “up”.
+5. Surrounding noises can interrupt and confuse the system.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+How to contribute:
+1. open an issue with one of the tasks provided below along with expected date of completion.
+2. fork the repository
+3. Code your appointed tasks
+4. Make commits and then request for a pull request
 
-### `yarn test`
+Valid pull requests will be accepted quickly. In case the pull request is not in line with requirements, we shall take it up in discussion.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Tasks available:
+1. Making a move history: for every move played, display a 2 column table of move history in the following format:
 
-### `yarn build`
+White - Black
+e4 - e5
+.
+.
+.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. UI design of the web app: make the web app responsive and enhance the UI using particle.js and other UI based tools.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Further tasks will be added as the project grows.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For any queries, write to us at atulsingh.pks@gmail.com
