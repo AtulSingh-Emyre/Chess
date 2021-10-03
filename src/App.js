@@ -3,6 +3,7 @@ import { Chessboard } from 'kokopu-react';
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import Chess from 'chess.js';
+import Navbarcomp from './Components/Navbar/navbar';
 // import Voicerecorder from './Components/VoiceRecorder';
 import SpeechProcessing from './Components/SpeechProcessing';
 var chess;
@@ -28,6 +29,7 @@ function App() {
   }
   return (
     <div className="App">
+      <Navbarcomp />
       <Container>
         <Row >
           <Col xs={6} md={4}>
