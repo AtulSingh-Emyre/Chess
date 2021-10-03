@@ -27,16 +27,6 @@ const Voicerecorder = () => {
             <div><h4>Voice Recorder</h4></div>
             <div style={{ backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <AudioReactRecorder state={recordState} onStop={onStop} />
-                {/* <audio controls ref={audioRef}>
-                    <source src={recordState ? recordState.url : null} type='audio/mpeg' />
-                </audio> */}
-                {/* <audio
-                controls
-                loop
-                crossorigin="anonymous"
-                id="audio"
-                src={recordState?recordState.url:null}
-            ></audio> */}
             </div>
             <Row>
                 <Col><Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={onStart}>Record</Button>
