@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-// Import module.
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 import Meyda from "meyda";
