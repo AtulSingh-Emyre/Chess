@@ -10,11 +10,16 @@ var chess;
 function App() {
   const [position, setPosition] = useState('start');
   const [move, setmove] = useState('');
+  // const [recognizedMove,setRecognizedMove] = useState('');
   useEffect(() => {
     chess = new Chess();
     return () => {
     };
   }, []);
+  const RenderRecognizedMove = (text) => {
+    setmove(move+''+text);
+  }
+
   const HandleMove = (event) => {
     setmove(event.target.value);
     // console.log(event.target.value);
@@ -47,7 +52,7 @@ function App() {
 
         </Row>
         <Row>
-          <SpeechProcessing />
+          <SpeechProcessing handleRecognizedMove={() => RenderRecognizedMove()} />
           {/* <Voicerecorder /> */}
         </Row>
 

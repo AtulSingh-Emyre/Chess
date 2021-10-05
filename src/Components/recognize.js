@@ -2,6 +2,7 @@ import { Utils } from './utils.js'
 
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
+const fs = require('browserify-fs');
 
 export class Recognize {
 
@@ -17,14 +18,14 @@ export class Recognize {
     static calibMode = false;
     static mfccHistoryArr = [];
     static mfccHistoryCunters = [];
-    static dictionary = ['one', 'two', 'three'];
+    static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
     // static dictionary = ['left', 'right', 'up', 'down']; 
     static bufferSize = 2048;
     static _buffArrSize = 40;      // 40   / 70
     static _minNumberOfVariants = 2;
     static _minKnnConfidence = 0;
     static _minDTWDist = 1000;
-    static K_factor = 3;
+    static K_factor = 6;
 
     static mfccDistArr = [];
 
@@ -37,7 +38,7 @@ export class Recognize {
      * @param {*} transcript 
      * @param {*} setStateFunc 
      */
-    static train(_buffer, transcript, setStateFunc) {
+    static train(_buffer, transcript, setStateFunc, word) {
         setStateFunc("training");
         this.buffer = _buffer;
         Meyda.bufferSize = this.bufferSize;
@@ -48,16 +49,23 @@ export class Recognize {
         // save current mfcc for future recognitions
         this.mfccHistoryArr.push({
             mfcc: this.bufferMfcc,
-            transcript: transcript
+            transcript: transcript,
+            word
         });
 
         if (!this.mfccHistoryCunters[transcript] && this.mfccHistoryCunters[transcript] !== 0)
             this.mfccHistoryCunters[transcript] = 0;
         this.mfccHistoryCunters[transcript]++;
-
-        console.log(this.bufferMfcc);
-        console.log(this.mfccHistoryArr);
-
+        // console.log("Data to be saved: >>>>>>>>>>>>>>>>>>");
+        // console.log(this.mfccHistoryCunters);
+        // console.log(this.mfccHistoryArr);
+        if(this.mfccHistoryArr.length === this.dictionary.length*20) {
+            // save in json file
+            var jsonContent = JSON.stringify(this.mfccHistoryArr);
+            // fs.writeFile("output.json", jsonContent, 'utf8');;
+            console.log('test');
+            console.log(jsonContent);
+        }
         setStateFunc("training saved");
         return true;
     }
@@ -74,14 +82,14 @@ export class Recognize {
         // calculate mfcc data
         this.bufferMfcc = this.createMfccMetric();
 
-        console.log(this.bufferMfcc);
+        // console.log(this.bufferMfcc);
 
         this.startTime = Utils.getTimestamp();
         setStateFunc("recognizing");
 
         // calculate DTW distance from all available trained data
         this.calculateDistanceArr();
-        console.log(this.mfccDistArr);
+        // console.log(this.mfccDistArr);
 
         // get closest one using knn
         var knnClosest;
@@ -116,6 +124,7 @@ export class Recognize {
             knnClosest.processTime = Utils.getTimestamp() - this.startTime;
         }
         setStateFunc("recognized");
+        // console.log(knnClosest);
         return knnClosest;
     };
 
@@ -131,7 +140,8 @@ export class Recognize {
                 var dist = dtw.getDistance();
                 this.mfccDistArr.push({
                     dist: dist,
-                    transcript: this.mfccHistoryArr[i].transcript
+                    transcript: this.mfccHistoryArr[i].transcript,
+                    word: this.mfccHistoryArr[i].word
                 });
             }
         }
@@ -169,7 +179,8 @@ export class Recognize {
         var maxElm = {
             transcript: '',
             weight: 0,
-            confidence: 0
+            confidence: 0,
+            word: -1
         };
 
         for (var i = 0; i < kArr.length; i++) {
@@ -188,6 +199,7 @@ export class Recognize {
                 maxElm = {
                     transcript: kArr[i].transcript,
                     weight: simArr[kArr[i].transcript].weight,
+                    word: kArr[i].word
                 };
             }
         }
@@ -206,6 +218,7 @@ export class Recognize {
             }
             maxElm.confidence = this.getGaussianKernel(sum / count).toFixed(4);
         }
+        // console.log('check 2',maxElm);
         return maxElm;
     }
 
@@ -225,7 +238,7 @@ export class Recognize {
                 mfccMetricArr.push(mfccMetric)
             }
         }
-        console.log('mfcc coefficients: ',mfccMetricArr);
+        // console.log('mfcc coefficients: ',mfccMetricArr);
         return mfccMetricArr;
     }
 
