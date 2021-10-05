@@ -19,7 +19,6 @@ export class Recognize {
     static mfccHistoryArr = [];
     static mfccHistoryCunters = [];
     static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
-    // static dictionary = ['left', 'right', 'up', 'down']; 
     static bufferSize = 2048;
     static _buffArrSize = 40;      // 40   / 70
     static _minNumberOfVariants = 2;
