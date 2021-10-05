@@ -122,8 +122,11 @@ class SpeechProcessing extends Component {
         let result = Recognize.recognize(internalLeftChannel, this.setStateMsgFunc);
         if (result) {
           this.setState({
-            msg: "Great! the result is ===> " + result.transcript + " <=== try more."
+            msg: "Great! the result is ===> "+result.transcript+" <=== try more."
           });
+          console.log(result.transcript);
+          console.log(this.props);
+          this.props.handleRecognizedMove(result.transcript+'');
         }
         else {
           this.setState({
@@ -133,7 +136,7 @@ class SpeechProcessing extends Component {
         console.log(result);
       }
       else {
-        let success = Recognize.train(internalLeftChannel, Recognize.dictionary[this.state.currentTrainingIndex % Recognize.dictionary.length], this.setStateMsgFunc);
+        let success = Recognize.train(internalLeftChannel, Recognize.dictionary[this.state.currentTrainingIndex % Recognize.dictionary.length], this.setStateMsgFunc, this.state.currentTrainingIndex>Recognize.dictionary.length?2:1);
         this.traingNextWord(success);
 
       }
@@ -152,7 +155,7 @@ class SpeechProcessing extends Component {
     if (success) {
       // next word
       let i = this.state.currentTrainingIndex + 1;
-      if (i > Recognize.dictionary.length * 2 - 1) {
+      if (i > Recognize.dictionary.length * 20 - 1) {
         this.setState({
           trained: true,
           currentTrainingIndex: i,
