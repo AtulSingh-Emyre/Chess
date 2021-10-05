@@ -6,8 +6,9 @@ import Chess from 'chess.js';
 import Navbarcomp from './Components/Navbar/navbar';
 // import Voicerecorder from './Components/VoiceRecorder';
 import SpeechProcessing from './Components/SpeechProcessing';
+import { data } from 'jquery';
 var chess;
-
+const test=[];
 function App() {
   const [position, setPosition] = useState('start');
   const [move, setmove] = useState('');
@@ -22,10 +23,14 @@ function App() {
   }
   const onClick = () => {
     chess.move(move);
+    test.push(move+' ');
     // chess.move('e5');
     console.log(chess.fen());
     setPosition(chess.fen());
     setmove('');
+  }
+  const renderdata = () =>{
+    return test;
   }
   return (
     <div className="App">
@@ -48,7 +53,10 @@ function App() {
               <Button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" onClick={() => onClick()}>Submit</Button>{' '}
             </div>
           </Col>
-
+          <Col>
+          <h2>Previous Moves</h2>
+              <h4>{renderdata()}</h4>{' '}
+          </Col>
         </Row>
         <Row>
           <SpeechProcessing />

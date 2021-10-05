@@ -19,10 +19,10 @@ const Navbarcomp = () => {
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            {/* <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Chess Rules</a>
-                            </li> */}
-                            
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="https://www.fide.com/FIDE/handbook/LawsOfChess.pdf">Chess Rules</a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
