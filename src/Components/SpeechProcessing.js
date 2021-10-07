@@ -165,7 +165,7 @@ class SpeechProcessing extends Component {
       else {
         this.setState({
           currentTrainingIndex: i,
-          msg: "Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
+          msg: "#"+i+"Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
         })
       }
     }
@@ -233,6 +233,19 @@ class SpeechProcessing extends Component {
     });
   }
 
+  recognize = () => {
+    Recognize.loadInBuiltDataSet();
+    this.setState({
+      currentTrainingIndex: 100000
+    });
+  }
+
+  train = () => {
+    this.setState({
+      currentTrainingIndex: 100000
+    });
+  }
+
   render() {
     return (
       <div className="SpeechProcessing">
@@ -250,6 +263,12 @@ class SpeechProcessing extends Component {
           <span>{this.state.statusMsg}</span>
         </div>
         <div id="audios-container"></div>
+        <div className="row">
+          Choose mode:
+          <button onClick={this.recognize}>Recognition</button>
+          <button onClick={this.train}>Training</button>
+        
+        </div>
       </div>
     );
   }

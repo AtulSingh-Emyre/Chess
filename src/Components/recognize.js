@@ -1,3 +1,4 @@
+import { training1 } from '../Constants/trainedModel.js';
 import { Utils } from './utils.js'
 
 var Meyda = require('meyda')
@@ -68,6 +69,11 @@ export class Recognize {
         }
         setStateFunc("training saved");
         return true;
+    }
+
+    static loadInBuiltDataSet() {
+        this.mfccHistoryArr = training1;
+        
     }
 
     /**
