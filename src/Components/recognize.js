@@ -1,9 +1,10 @@
-import { training1 } from '../Constants/trainedModel.js';
 import { Utils } from './utils.js'
-
+import {InitialState  } from "../Constants/DataSet";
+import { training1 } from "../Constants/trainedModel";
+// import {InitialState  } from "../Constants/DataSet";
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
-const fs = require('browserify-fs');
+// const fs = require('browserify-fs');
 
 export class Recognize {
 
@@ -14,24 +15,25 @@ export class Recognize {
   ******************************************************************************/
 
     // you can try and tune these variables
-    static startTime = null;
-    static endTime = null;
-    static calibMode = false;
-    static mfccHistoryArr = [];
-    static mfccHistoryCunters = [];
-    static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
+    static startTime = InitialState.startTime;
+    static endTime = InitialState.endTime;
+    static calibMode = InitialState.calibMode;
+    static mfccHistoryArr = training1;
+    static mfccHistoryCunters = [null,20,20,20,20,20,20,20,20];
+    static dictionary = InitialState.dictionary;
+    // ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
     // static dictionary = ['left', 'right', 'up', 'down']; 
-    static bufferSize = 2048;
-    static _buffArrSize = 40;      // 40   / 70
-    static _minNumberOfVariants = 2;
+    static bufferSize = InitialState.bufferSize;
+    static _buffArrSize = InitialState._buffArrSize;      // 40   / 70
+    static _minNumberOfVariants = InitialState._minNumberOfVariants;
     static _minKnnConfidence = 0;
-    static _minDTWDist = 1000;
-    static K_factor = 6;
+    static _minDTWDist = InitialState._minDTWDist;
+    static K_factor = InitialState.K_factor;
 
-    static mfccDistArr = [];
+    static mfccDistArr = InitialState.mfccDistArr;
 
-    static bufferMfcc;
-    static buffer = {};
+    static bufferMfcc = InitialState.bufferMfcc;
+    static buffer = InitialState.buffer;
 
     /**
      * train the system, assume that the passed audio data in the buffer fits the transcript
@@ -60,21 +62,41 @@ export class Recognize {
         // console.log("Data to be saved: >>>>>>>>>>>>>>>>>>");
         // console.log(this.mfccHistoryCunters);
         // console.log(this.mfccHistoryArr);
-        if(this.mfccHistoryArr.length === this.dictionary.length*20) {
-            // save in json file
-            var jsonContent = JSON.stringify(this.mfccHistoryArr);
-            // fs.writeFile("output.json", jsonContent, 'utf8');;
-            console.log('test');
-            console.log(jsonContent);
-        }
+        // console.log(this.mfccHistoryArr.length);
+        // if(this.mfccHistoryArr.length >= this.dictionary.length*2) {
+        //     // save in json file
+        //     // var jsonContent = JSON.stringify(this.mfccHistoryArr);
+        //     // fs.writeFile("output.json", jsonContent, 'utf8');;
+        //     const currentState = {
+        //         startTime: this.startTime,
+        //         endTime: this.endTime,
+        //         calibMode: this.calibMode,
+        //         mfccHistoryArr: this.mfccHistoryArr,
+        //         mfccHistoryCunters: this.mfccHistoryCunters,
+        //         dictionary: this.dictionary,
+        //         bufferSize: this.bufferSize,
+        //         _buffArrSize: this._buffArrSize,
+        //         _minNumberOfVariants: this._minNumberOfVariants,
+        //         _minKnnConfidence: this.__minKnnConfidence,
+        //         _minDTWDist: this._minDTWDist,
+        //         K_factor: this.K_factor,
+        //         mfccDistArr: this.mfccDistArr,
+        //         bufferMfcc: this.bufferMfcc,
+        //         buffer: this.buffer
+        //     }
+        //     console.log('test');
+        //     // console.log(jsonContent);
+        //     console.log(JSON.stringify(currentState));
+        // }
         setStateFunc("training saved");
         return true;
     }
 
-    static loadInBuiltDataSet() {
-        this.mfccHistoryArr = training1;
-        
-    }
+    // static loadInBuiltDataSet() {
+    //     this.mfccHistoryArr = training1;
+    //     this.mfccHistoryCunters = training1Cnter;
+
+    // }
 
     /**
      * try to recognize what the audio data in the buffer is
@@ -84,7 +106,8 @@ export class Recognize {
     static recognize(_buffer, setStateFunc) {
         this.buffer = _buffer;
         Meyda.bufferSize = this.bufferSize;
-
+        console.log(this.mfccHistoryArr);
+        console.log(this.mfccHistoryCunters);
         // calculate mfcc data
         this.bufferMfcc = this.createMfccMetric();
 
@@ -120,7 +143,7 @@ export class Recognize {
         }
 
         // validate that we have minimal recognition confidence
-        if (!knnClosest || knnClosest.confidence < 0.75) {
+        if (!knnClosest || knnClosest.confidence < 0.7) {
             this.endTime = Utils.getTimestamp();
             setStateFunc("not recognized");
             console.log("recognition locally failed or returned no good result (" + (this.endTime - this.startTime) + " ms)");
