@@ -1,0 +1,1 @@
+export const training1Cnter = [null,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]

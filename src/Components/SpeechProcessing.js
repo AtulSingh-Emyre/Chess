@@ -14,8 +14,9 @@ class SpeechProcessing extends Component {
       msg: "",
       modeMsg: "",
       statusMsg: "",
-      trained: false,
+      trained: true,
       currentTrainingIndex: null,
+      isModeSelected: false,
       result: ''
     }
     /******************************************************************************************************/
@@ -155,7 +156,8 @@ class SpeechProcessing extends Component {
     if (success) {
       // next word
       let i = this.state.currentTrainingIndex + 1;
-      if (i > Recognize.dictionary.length * 20 - 1) {
+      console.log('state: ' ,this.state.trained);
+      if (this.state.trained || i > Recognize.dictionary.length * 2 - 1 ) {
         this.setState({
           trained: true,
           currentTrainingIndex: i,
@@ -166,7 +168,7 @@ class SpeechProcessing extends Component {
       else {
         this.setState({
           currentTrainingIndex: i,
-          msg: "Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
+          msg: "#"+i+"Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
         })
       }
     }
@@ -214,7 +216,8 @@ class SpeechProcessing extends Component {
   /** React */
 
   start = () => {
-    this.startListening()
+    this.startListening();
+    console.log(this.state);
     if (!this.state.trained) {
       this.setState({
         modeMsg: "training mode",
@@ -230,14 +233,36 @@ class SpeechProcessing extends Component {
   stop = () => {
     this.stopListening()
     this.setState({
-      statusMsg: "stoped"
+      statusMsg: "stoped",
+      isModeSelected: false,
+    });
+  }
+
+  recognize = () => {
+    this.setState({
+      // currentTrainingIndex: 100000,
+      isModeSelected: true,
+      trained: true
+    });
+  }
+
+  train = () => {
+    this.setState({
+      currentTrainingIndex: 0,
+      trained: false,
+      isModeSelected: true
     });
   }
 
   render() {
     return (
       <div className="SpeechProcessing">
-        <h2 style={{color:'Violet'}}>Click on record to start the game</h2>
+        {!this.state.isModeSelected && <div className="row">
+          Choose mode:
+          <button onClick={this.recognize}>Recognition</button>
+          <button onClick={this.train}>Training</button>
+        </div>}
+        {this.state.isModeSelected &&  <> <h2 style={{color:'Violet'}}>Click on record to start the game</h2>
         <div >
           <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button>
           <Button style={{ height: '45px', width: '150px', backgroundColor: 'Violet', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
@@ -252,6 +277,7 @@ class SpeechProcessing extends Component {
           <span>{this.state.statusMsg}</span>
         </div>
         <div id="audios-container"></div>
+    </>}
       </div>
     );
   }
