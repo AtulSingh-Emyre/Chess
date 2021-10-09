@@ -123,7 +123,9 @@ class SpeechProcessing extends Component {
         let result = Recognize.recognize(internalLeftChannel, this.setStateMsgFunc);
         if (result) {
           this.setState({
-            msg: "Great! the result is ===> "+result.transcript+" <=== try more."
+            msg: <>"Great! the result is {'===>'} {result.transcript} {'<==='} try more."<br/>
+            <button onClick={() => Recognize.saveRecognizedFeature()}>Add feature to dataset</button>
+            </>
           });
           console.log(result.transcript);
           console.log(this.props);
