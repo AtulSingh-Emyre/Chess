@@ -1,6 +1,7 @@
 import { Utils } from './utils.js'
 import {InitialState  } from "../Constants/DataSet";
 import { training1 } from "../Constants/trainedModel";
+import { trainingCnter1 } from '../Constants/MfccCounterHist1.js';
 // import {InitialState  } from "../Constants/DataSet";
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
@@ -19,7 +20,7 @@ export class Recognize {
     static endTime = InitialState.endTime;
     static calibMode = InitialState.calibMode;
     static mfccHistoryArr = training1;
-    static mfccHistoryCunters = [null,20,20,20,20,20,20,20,20];
+    static mfccHistoryCunters = trainingCnter1.getMfccHistoryCunters();
     static dictionary = InitialState.dictionary;
     // ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
     // static dictionary = ['left', 'right', 'up', 'down']; 
@@ -27,14 +28,25 @@ export class Recognize {
     static _buffArrSize = InitialState._buffArrSize;      // 40   / 70
     static _minNumberOfVariants = InitialState._minNumberOfVariants;
     static _minKnnConfidence = 0;
-    static _minDTWDist = InitialState._minDTWDist;
-    static K_factor = InitialState.K_factor;
+    static _minDTWDist = 3000;
+    static K_factor = 20;
 
     static mfccDistArr = InitialState.mfccDistArr;
-
+    static knnClosestGlobal = {};
     static bufferMfcc = InitialState.bufferMfcc;
     static buffer = InitialState.buffer;
-
+    static saveRecognizedFeature = () => {
+        if (this.knnClosestGlobal && this.knnClosestGlobal.transcript !== "") {
+            // save current mfcc for next recognitions
+            this.mfccHistoryArr.push({
+                mfcc: this.bufferMfcc,
+                transcript: this.knnClosestGlobal.transcript
+            });
+            if (!this.mfccHistoryCunters[this.knnClosestGlobal.transcript] && this.mfccHistoryCunters[this.knnClosestGlobal.transcript] !== 0)
+                this.mfccHistoryCunters[this.knnClosestGlobal.transcript] = 0;
+            this.mfccHistoryCunters[this.knnClosestGlobal.transcript]++;
+        }
+    }
     /**
      * train the system, assume that the passed audio data in the buffer fits the transcript
      * @param {*} _buffer 
@@ -124,26 +136,28 @@ export class Recognize {
         var knnClosest;
         if (this.K_factor <= this.mfccHistoryArr.length) {
             knnClosest = this.getMostSimilarKnn(this.mfccDistArr, this.compareMfcc, this.K_factor);
+            console.log('check 2',knnClosest);
             if (knnClosest &&
                 (this.mfccHistoryCunters[knnClosest.transcript] < this._minNumberOfVariants
                     || knnClosest.confidence < this._minKnnConfidence))
                 knnClosest = null;
 
             if (knnClosest && knnClosest.transcript !== "") {
+                this.knnClosestGlobal = knnClosest;
                 // save current mfcc for next recognitions
-                this.mfccHistoryArr.push({
-                    mfcc: this.bufferMfcc,
-                    transcript: knnClosest.transcript
-                });
-                if (!this.mfccHistoryCunters[knnClosest.transcript] && this.mfccHistoryCunters[knnClosest.transcript] !== 0)
-                    this.mfccHistoryCunters[knnClosest.transcript] = 0;
-                this.mfccHistoryCunters[knnClosest.transcript]++;
+                // this.mfccHistoryArr.push({
+                //     mfcc: this.bufferMfcc,
+                //     transcript: knnClosest.transcript
+                // });
+                // if (!this.mfccHistoryCunters[knnClosest.transcript] && this.mfccHistoryCunters[knnClosest.transcript] !== 0)
+                //     this.mfccHistoryCunters[knnClosest.transcript] = 0;
+                // this.mfccHistoryCunters[knnClosest.transcript]++;
             }
 
         }
 
         // validate that we have minimal recognition confidence
-        if (!knnClosest || knnClosest.confidence < 0.7) {
+        if (!knnClosest || knnClosest.confidence < 0.5) {
             this.endTime = Utils.getTimestamp();
             setStateFunc("not recognized");
             console.log("recognition locally failed or returned no good result (" + (this.endTime - this.startTime) + " ms)");
@@ -199,11 +213,14 @@ export class Recognize {
             return;
         if (k > Items.length)
             return;
+        console.log('check 3',Items.length);
         var items = Items;
         var compFunc = CompFunc;
 
         items.sort(compFunc);
+        
         var kArr = items.slice(0, k);
+        console.log('check 4', kArr);
         var simArr = [];
         var maxElm = {
             transcript: '',
@@ -214,7 +231,10 @@ export class Recognize {
 
         for (var i = 0; i < kArr.length; i++) {
             if (kArr[i].dist > this._minDTWDist)
+                {
+                console.log('continue;');    
                 continue;
+                }
 
             if (!simArr[kArr[i].transcript])
                 simArr[kArr[i].transcript] = {
@@ -232,6 +252,7 @@ export class Recognize {
                 };
             }
         }
+        console.log('check similar array',simArr,kArr);
 
         if (maxElm && maxElm.transcript === '')
             maxElm = null;
