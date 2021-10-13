@@ -64,7 +64,7 @@ function App() {
           </Col>
         </Row>
         <Row>
-          <SpeechProcessing handleRecognizedMove={() => RenderRecognizedMove()} />
+          <SpeechProcessing handleRecognizedMove={RenderRecognizedMove} />
           {/* <Voicerecorder /> */}
         </Row>
 

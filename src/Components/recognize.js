@@ -71,35 +71,19 @@ export class Recognize {
         if (!this.mfccHistoryCunters[transcript] && this.mfccHistoryCunters[transcript] !== 0)
             this.mfccHistoryCunters[transcript] = 0;
         this.mfccHistoryCunters[transcript]++;
-        // console.log("Data to be saved: >>>>>>>>>>>>>>>>>>");
+        
+        console.log("Data to be saved: >>>>>>>>>>>>>>>>>>");
         // console.log(this.mfccHistoryCunters);
         // console.log(this.mfccHistoryArr);
-        // console.log(this.mfccHistoryArr.length);
-        // if(this.mfccHistoryArr.length >= this.dictionary.length*2) {
-        //     // save in json file
-        //     // var jsonContent = JSON.stringify(this.mfccHistoryArr);
-        //     // fs.writeFile("output.json", jsonContent, 'utf8');;
-        //     const currentState = {
-        //         startTime: this.startTime,
-        //         endTime: this.endTime,
-        //         calibMode: this.calibMode,
-        //         mfccHistoryArr: this.mfccHistoryArr,
-        //         mfccHistoryCunters: this.mfccHistoryCunters,
-        //         dictionary: this.dictionary,
-        //         bufferSize: this.bufferSize,
-        //         _buffArrSize: this._buffArrSize,
-        //         _minNumberOfVariants: this._minNumberOfVariants,
-        //         _minKnnConfidence: this.__minKnnConfidence,
-        //         _minDTWDist: this._minDTWDist,
-        //         K_factor: this.K_factor,
-        //         mfccDistArr: this.mfccDistArr,
-        //         bufferMfcc: this.bufferMfcc,
-        //         buffer: this.buffer
-        //     }
-        //     console.log('test');
-        //     // console.log(jsonContent);
-        //     console.log(JSON.stringify(currentState));
-        // }
+        console.log(this.mfccHistoryArr.length);
+        if(this.mfccHistoryArr.length >= this.dictionary.length*10) {
+            // save in json file
+            var jsonContent = JSON.stringify(this.mfccHistoryArr);
+            console.log('10 data set saved');
+            console.log(jsonContent);
+            console.log(JSON.stringify(this.mfccHistoryCunters));
+            // fs.writeFile("output.json", jsonContent, 'utf8');;
+        }
         setStateFunc("training saved");
         return true;
     }
@@ -144,14 +128,6 @@ export class Recognize {
 
             if (knnClosest && knnClosest.transcript !== "") {
                 this.knnClosestGlobal = knnClosest;
-                // save current mfcc for next recognitions
-                // this.mfccHistoryArr.push({
-                //     mfcc: this.bufferMfcc,
-                //     transcript: knnClosest.transcript
-                // });
-                // if (!this.mfccHistoryCunters[knnClosest.transcript] && this.mfccHistoryCunters[knnClosest.transcript] !== 0)
-                //     this.mfccHistoryCunters[knnClosest.transcript] = 0;
-                // this.mfccHistoryCunters[knnClosest.transcript]++;
             }
 
         }
