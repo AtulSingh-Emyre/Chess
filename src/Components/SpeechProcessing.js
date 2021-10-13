@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './SpeechProcessing.css';
 import { Utils } from './utils.js'
-import { Form, Button, Row, Col, Container } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Recognize } from './recognize';
 
 var hark = require('hark')
@@ -159,7 +159,7 @@ class SpeechProcessing extends Component {
       // next word
       let i = this.state.currentTrainingIndex + 1;
       console.log('state: ' ,this.state.trained);
-      if (this.state.trained || i > Recognize.dictionary.length * 2 - 1 ) {
+      if (this.state.trained || i > Recognize.dictionary.length * 10 - 1 ) {
         this.setState({
           trained: true,
           currentTrainingIndex: i,
@@ -170,7 +170,7 @@ class SpeechProcessing extends Component {
       else {
         this.setState({
           currentTrainingIndex: i,
-          msg: "#"+i+"Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
+          msg: "#"+(i/Recognize.dictionary.length)+"Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
         })
       }
     }
