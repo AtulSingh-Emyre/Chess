@@ -1,4 +1,4 @@
-Recognition of Chess Movements via speech
+## Recognition of Chess Movements via speech
 
 The project largely aims to recognise chess movements via speech and display it on the UI. It includes features like:
 1. Consists of both training and recognition modes
