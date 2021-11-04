@@ -17,7 +17,8 @@ class SpeechProcessing extends Component {
       trained: true,
       currentTrainingIndex: null,
       isModeSelected: false,
-      result: ''
+      result: '',
+      running: false
     }
     /******************************************************************************************************/
 
@@ -170,7 +171,7 @@ class SpeechProcessing extends Component {
       else {
         this.setState({
           currentTrainingIndex: i,
-          msg: "#"+(i/Recognize.dictionary.length)+"Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
+          msg: "#"+(Math.floor(i/Recognize.dictionary.length)+1)+": Good! say the next word loud and clear, and wait until we process it.  ===>  " + Recognize.dictionary[i % Recognize.dictionary.length]
         })
       }
     }
@@ -218,16 +219,18 @@ class SpeechProcessing extends Component {
   /** React */
 
   start = () => {
+
     this.startListening();
-    console.log(this.state);
     if (!this.state.trained) {
       this.setState({
         modeMsg: "training mode",
+        running: true
       });
     }
     else {
       this.setState({
-        modeMsg: "recognizing mode"
+        modeMsg: "recognizing mode",
+        running: true
       });
     }
   }
@@ -237,6 +240,7 @@ class SpeechProcessing extends Component {
     this.setState({
       statusMsg: "stoped",
       isModeSelected: false,
+      running: false
     });
   }
 
@@ -266,8 +270,8 @@ class SpeechProcessing extends Component {
         </div>}
         {this.state.isModeSelected &&  <> <h2 style={{color:'Violet'}}>Click on record to start the game</h2>
         <div >
-          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button>
-          <Button style={{ height: '45px', width: '150px', backgroundColor: 'Violet', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button>
+         {!this.state.running && <Button style={{ height: '45px', width: '150px', backgroundColor: 'Red', margin: '10px', padding: '5px' }} onClick={this.start}>Record</Button> }
+         {this.state.running && <Button style={{ height: '45px', width: '150px', backgroundColor: 'Violet', margin: '10px', padding: '5px' }} onClick={this.stop}>Stop</Button> }
         </div>
         <div className="msgs">
           <span>{this.state.modeMsg}</span>

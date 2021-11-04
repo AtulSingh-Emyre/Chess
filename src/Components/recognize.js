@@ -1,40 +1,26 @@
 import { Utils } from './utils.js'
-import {InitialState  } from "../Constants/DataSet";
-import { training1 } from "../Constants/trainedModel";
-import { trainingCnter1 } from '../Constants/MfccCounterHist1.js';
-// import {InitialState  } from "../Constants/DataSet";
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
-// const fs = require('browserify-fs');
 
 export class Recognize {
-
-    /******************************************************************************
-  * Local Recognition and MFCC/DTW calculations 
-  * MFCC by Meyda: https://github.com/meyda/meyda
-  * DTW: https://github.com/GordonLesti/dynamic-time-warping
-  ******************************************************************************/
-
-    // you can try and tune these variables
-    static startTime = InitialState.startTime;
-    static endTime = InitialState.endTime;
-    static calibMode = InitialState.calibMode;
-    static mfccHistoryArr = training1;
-    static mfccHistoryCunters = trainingCnter1.getMfccHistoryCunters();
-    static dictionary = InitialState.dictionary;
-    // ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
-    // static dictionary = ['left', 'right', 'up', 'down']; 
-    static bufferSize = InitialState.bufferSize;
-    static _buffArrSize = InitialState._buffArrSize;      // 40   / 70
-    static _minNumberOfVariants = InitialState._minNumberOfVariants;
+    // initial states
+    static startTime = null;
+    static endTime = null;
+    static calibMode = false;
+    static mfccHistoryArr = [];
+    static mfccHistoryCunters = [];
+    static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
+    static bufferSize = 2048;
+    static _buffArrSize = 70;
+    static _minNumberOfVariants = 5;
     static _minKnnConfidence = 0;
     static _minDTWDist = 3000;
     static K_factor = 20;
-
-    static mfccDistArr = InitialState.mfccDistArr;
+    static mfccDistArr = [];
     static knnClosestGlobal = {};
-    static bufferMfcc = InitialState.bufferMfcc;
-    static buffer = InitialState.buffer;
+    static bufferMfcc = [];
+    static buffer = [];
+
     static saveRecognizedFeature = () => {
         if (this.knnClosestGlobal && this.knnClosestGlobal.transcript !== "") {
             // save current mfcc for next recognitions
