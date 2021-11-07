@@ -1,5 +1,5 @@
 import { Utils } from './utils.js'
-import {training} from '../Constants/tModel.js'
+import { training23} from '../Constants/tModel.js'
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
 
@@ -8,7 +8,7 @@ export class Recognize {
     static startTime = null;
     static endTime = null;
     static calibMode = false;
-    static mfccHistoryArr = training;
+    static mfccHistoryArr = training23;
     static mfccHistoryCunters = [];
     static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
     static bufferSize = 2048;
