@@ -1,4 +1,5 @@
 import { Utils } from './utils.js'
+import {training} from '../Constants/tModel.js'
 var Meyda = require('meyda')
 var DynamicTimeWarping = require('dynamic-time-warping')
 
@@ -7,7 +8,7 @@ export class Recognize {
     static startTime = null;
     static endTime = null;
     static calibMode = false;
-    static mfccHistoryArr = [];
+    static mfccHistoryArr = training;
     static mfccHistoryCunters = [];
     static dictionary = ['N', 'R', 'B','K','Q','a','b','c','d','e','f','g','h','x','O-O', '1','2','3','4','5','6','7','8'];
     static bufferSize = 2048;
@@ -62,10 +63,10 @@ export class Recognize {
         // console.log(this.mfccHistoryCunters);
         // console.log(this.mfccHistoryArr);
         console.log(this.mfccHistoryArr.length);
-        if(this.mfccHistoryArr.length >= this.dictionary.length*10) {
+        if(this.mfccHistoryArr.length >= this.dictionary.length*5) {
             // save in json file
             var jsonContent = JSON.stringify(this.mfccHistoryArr);
-            console.log('10 data set saved');
+            console.log('5 data set saved');
             console.log(jsonContent);
             console.log(JSON.stringify(this.mfccHistoryCunters));
             // fs.writeFile("output.json", jsonContent, 'utf8');;
