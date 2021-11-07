@@ -160,7 +160,7 @@ class SpeechProcessing extends Component {
       // next word
       let i = this.state.currentTrainingIndex + 1;
       console.log('state: ' ,this.state.trained);
-      if (this.state.trained || i > Recognize.dictionary.length * 10 - 1 ) {
+      if (this.state.trained || i > Recognize.dictionary.length * 5 - 1 ) {
         this.setState({
           trained: true,
           currentTrainingIndex: i,
